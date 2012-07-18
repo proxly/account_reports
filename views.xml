@@ -1,0 +1,58 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+        <record id="view_account_reports_auberon_gl_form" model="ir.ui.view">
+            <field name="name">account.reports.auberon.gl.form</field>
+            <field name="model">account.reports.auberon.gl</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string = "Accounting Reports GL">
+                    <field name="account_code"/>
+                    <field name="account_name"/>
+                    <field name="account_debit"/>
+                    <field name="account_credit"/>
+                    <field name="journal_name"/>
+                </form>
+            </field>
+        </record>        
+        <record model="ir.ui.view" id="view_account_reports_auberon_gl_tree">
+            <field name="name">account.reports.auberon.gl.tree</field>
+            <field name="model">account.reports.auberon.gl</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="Accounting Reports GL">
+					<field name="account_code"/>
+					<field name="account_name"/>
+                    <field name="account_debit"/>
+                    <field name="account_credit"/>
+                    <field name="journal_name"/>
+                </tree>
+            </field>
+        </record>
+        <record id="view_account_reports_auberon_gl_filter" model="ir.ui.view">
+		    <field name="name">account.reports.auberon.gl.filter</field>
+            <field name="model">account.reports.auberon.gl</field>
+            <field name="type">search</field>
+            <field name="arch" type="xml">
+                <search string="Accounting Reports GL">
+                    <group>
+					    <field name="account_code"/>
+					    <field name="account_name"/>
+                        <field name="journal_name"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+        		<record model="ir.actions.act_window" id="action_account_reports_auberon_gl_form">
+        	<field name="name">Accounting Reports GL</field>
+	        <field name="res_model">account.reports.auberon.gl</field>
+		<field name="view_type">form</field>
+        </record>
+        
+        <menuitem id="menu_account_reports_auberon_gl" 
+            action="action_account_reports_auberon_gl_form" 
+            parent="account.menu_finance_legal_statement"
+            sequence="100" 
+            groups="base.group_user"/>
+    </data>
+</openerp>

@@ -29,7 +29,7 @@
     'website': 'http://www.auberonsolutions.com',
     'init_xml': [],
     "depends" : ["account"],
-    'update_xml': ["views.xml"
+    'update_xml': ["views.xml","data.xml"
     ],
     'demo_xml': [
     ],
