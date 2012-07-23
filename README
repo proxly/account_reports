@@ -1,0 +1,4 @@
+Financial Legal Reports
+
+This module is designed to have a view only of all Legal reports for the financial module.
+It inserts prefetch data from other tables ie. account_move_line, account_journal, account_account to prevent python to consume memory when generating a report.
