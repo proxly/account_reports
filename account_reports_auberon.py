@@ -22,7 +22,7 @@ class account_reports_auberon_gl(osv.osv):
         'journal_name':fields.char('Journal', size=64),
         'report_creator':fields.char('User', size=64,),
         'date_generated':fields.datetime('Generate Date'),
-        'creator_updated':fields.boolean('updated creator'),
+        'creator_updated':fields.integer('updated creator'),
     }
     _order = 'date_generated desc'
     
@@ -35,10 +35,7 @@ class account_reports_auberon_gl(osv.osv):
     def get_ledger(self, cr, uid, ids, context=None):
         cr.execute('insert into account_reports_auberon_gl(account_code,account_name,account_debit, account_credit, journal_name) select aa.code, aa.name, aml.debit, aml.credit, journ.name from account_account aa , account_journal journ , account_move_line aml where aml.account_id=aa.id and journ.id=aml.journal_id')
         user='Administrator'
-        creator_updated_stat='t'
-        tester='t'
-        cr.execute('update account_reports_auberon_gl set report_creator=%s, creator_updated=%s',(user,creator_updated_stat,))
-        self.update_ledger(cr, uid, ids,context=context)
+        cr.execute('update account_reports_auberon_gl set report_creator=%s, creator_updated=1 where creator_updated=Null',(user,))
         return True
        
 account_reports_auberon_gl()
