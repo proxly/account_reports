@@ -1,6 +1,8 @@
 <?xml version="1.0"?>
 <openerp>
     <data>
+    <!--General Ledger-->
+    <!--
         <record id="view_account_reports_auberon_gl_form" model="ir.ui.view">
             <field name="name">account.reports.auberon.gl.form</field>
             <field name="model">account.reports.auberon.gl</field>
@@ -54,5 +56,96 @@
             parent="account.menu_finance_legal_statement"
             sequence="100" 
             groups="base.group_user"/>
+-->            
+            <!--Profit and Loss-->
+        <record id="view_account_reports_auberon_pl_form" model="ir.ui.view">
+            <field name="name">account.reports.auberon.pl.form</field>
+            <field name="model">account.reports.auberon.pl</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string = "Profit and Loss">
+                        <group colspan="4" col="4">
+					    <field name="period_id"/>
+					    <field name="generation_date"/>
+					    </group>
+					    <group colspan="4" col="4">
+					        <group colspan="2" col="2">
+					            <field name="income_ids" nolabel="1">
+					                <tree string="Income Accounts" editable="bottom">
+					                    <field name="account_name"/>
+					                    <field name="total_amount"/>
+					                </tree>
+					            </field>
+					            <group colspan="4" col="4">
+					                <group colspan="2" col="2">
+					                    <button string="Generate Income Entries"
+                                            type="object"
+                                            name="get_income_entries"
+                                            icon="gtk-execute"
+                                            attrs="{'invisible': [('state','!=','draft')]}"
+                                            colspan="2"/>
+					                </group>
+					                <group colspan="2" col="2">
+					                <field name="total_income"/>
+					                </group>
+					            </group>
+                            </group>
+                            <group colspan="2" col="2">
+					            <field name="expense_ids" nolabel="1">
+					                <tree string="Expense Accounts" editable="bottom">
+					                    <field name="account_name"/>
+					                    <field name="total_amount"/>
+					                </tree>
+					            </field>
+					            <group colspan="4" col="4">
+					                <group colspan="2" col="2">
+					                </group>
+					                <group colspan="2" col="2">
+					                <field name="total_expense"/>
+					                </group>
+					            </group>
+                            </group>
+					    </group>
+					    <group colspan="4" col="4">
+    					    <field name="state"/>
+    					    <field name="net_profit_loss"/>
+					    </group>
+                </form>
+            </field>
+        </record>        
+        <record model="ir.ui.view" id="view_account_reports_auberon_pl_tree">
+            <field name="name">account.reports.auberon.pl.tree</field>
+            <field name="model">account.reports.auberon.pl</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="Profit and Loss">
+					    <field name="period_id"/>
+					    <field name="generation_date"/>
+                </tree>
+            </field>
+        </record>
+        <record id="view_account_reports_auberon_pl_filter" model="ir.ui.view">
+		    <field name="name">account.reports.auberon.pl.filter</field>
+            <field name="model">account.reports.auberon.pl</field>
+            <field name="type">search</field>
+            <field name="arch" type="xml">
+                <search string="Profit and Loss">
+					    <field name="period_id"/>
+					    <field name="generation_date"/>
+                </search>
+            </field>
+        </record>
+        
+        <record model="ir.actions.act_window" id="action_account_reports_auberon_pl_form">
+        	<field name="name">Profit and Loss</field>
+	        <field name="res_model">account.reports.auberon.pl</field>
+		    <field name="view_type">form</field>
+        </record>
+        
+        <menuitem id="menu_account_reports_auberon_pl" 
+            action="action_account_reports_auberon_pl_form" 
+            parent="account.menu_finance_legal_statement"
+            sequence="200" 
+            groups="base.group_user"/>  
     </data>
 </openerp>
