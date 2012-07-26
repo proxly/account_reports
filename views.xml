@@ -2,9 +2,9 @@
 <openerp>
     <data>
     <!--General Ledger-->
-        <record id="view_account_reports_auberon_pl_form" model="ir.ui.view">
-            <field name="name">account.reports.auberon.pl.form</field>
-            <field name="model">account.reports.auberon.pl</field>
+        <record id="view_account_reports_pl_form" model="ir.ui.view">
+            <field name="name">account.reports.pl.form</field>
+            <field name="model">account.reports.pl</field>
             <field name="type">form</field>
             <field name="arch" type="xml">
                 <form string = "Profit and Loss">
@@ -24,7 +24,7 @@
 					                <group colspan="2" col="2">
 					                    <button string="Generate Income Entries"
                                             type="object"
-                                            name="get_income_entries"
+                                            name="get_entries"
                                             icon="gtk-execute"
                                             attrs="{'invisible': [('state','!=','draft')]}"
                                             colspan="2"/>
@@ -57,9 +57,9 @@
                 </form>
             </field>
         </record>        
-        <record model="ir.ui.view" id="view_account_reports_auberon_pl_tree">
-            <field name="name">account.reports.auberon.pl.tree</field>
-            <field name="model">account.reports.auberon.pl</field>
+        <record model="ir.ui.view" id="view_account_reports_pl_tree">
+            <field name="name">account.reports.pl.tree</field>
+            <field name="model">account.reports.pl</field>
             <field name="type">tree</field>
             <field name="arch" type="xml">
                 <tree string="Profit and Loss">
@@ -68,9 +68,9 @@
                 </tree>
             </field>
         </record>
-        <record id="view_account_reports_auberon_pl_filter" model="ir.ui.view">
-		    <field name="name">account.reports.auberon.pl.filter</field>
-            <field name="model">account.reports.auberon.pl</field>
+        <record id="view_account_reports_pl_filter" model="ir.ui.view">
+		    <field name="name">account.reports.pl.filter</field>
+            <field name="model">account.reports.pl</field>
             <field name="type">search</field>
             <field name="arch" type="xml">
                 <search string="Profit and Loss">
@@ -80,14 +80,14 @@
             </field>
         </record>
         
-        <record model="ir.actions.act_window" id="action_account_reports_auberon_pl_form">
+        <record model="ir.actions.act_window" id="action_account_reports_pl_form">
         	<field name="name">Profit and Loss</field>
-	        <field name="res_model">account.reports.auberon.pl</field>
+	        <field name="res_model">account.reports.pl</field>
 		    <field name="view_type">form</field>
         </record>
         
-        <menuitem id="menu_account_reports_auberon_pl" 
-            action="action_account_reports_auberon_pl_form" 
+        <menuitem id="menu_account_reports_pl" 
+            action="action_account_reports_pl_form" 
             parent="account.menu_finance_legal_statement"
             sequence="200" 
             groups="base.group_user"/>  

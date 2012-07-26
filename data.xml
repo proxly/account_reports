@@ -10,7 +10,7 @@
             <field name="interval_type">minutes</field>
             <field name="numbercall">-1</field>
             <field eval="False" name="doall"/>
-            <field eval="'account.reports.auberon.gl'" name="model"/>
+            <field eval="'account.reports.gl'" name="model"/>
             <field eval="'get_ledger'" name="function"/>
             <field eval="'(False,)'" name="args"/>
         </record>
