@@ -19,14 +19,14 @@
 #
 ##############################################################################
 {
-    "name" : "Auberon Accounting and Financial Reports",
+    "name" : "Accounting and Financial Reports",
     "version" : "1.0",
-    "author" : "Auberon Module Robot",
+    "author" : "Roxly Rivero",
     "category": 'Generic Modules/Accounting',
     "description": """
     Financial and Accounting Reports Redefined
     """,
-    'website': 'http://www.auberonsolutions.com',
+    'website': '',
     'init_xml': [],
     "depends" : ["account"],
     'update_xml': ["views.xml"
