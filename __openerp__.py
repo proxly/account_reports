@@ -26,7 +26,7 @@
     "description": """
     Financial and Accounting Reports Redefined
     """,
-    'website': '',
+    'website': 'http://proxly.github.com/account_reports',
     'init_xml': [],
     "depends" : ["account"],
     'update_xml': ["views.xml"
