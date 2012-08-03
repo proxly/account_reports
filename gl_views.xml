@@ -1,0 +1,68 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+    <!--General Ledger-->  
+    	 <record id="view_account_reports_gl_form" model="ir.ui.view">
+            <field name="name">account.reports.gl.form</field>
+            <field name="model">account.reports.gl</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string = "General Ledger">
+                      <button string="Fetch Entries"
+                                            type="object"
+                                            name="fetch_entries"
+                                            icon="gtk-execute"
+                                            colspan="2"/>
+                </form>
+            </field>
+        </record>     
+        <record model="ir.ui.view" id="view_account_reports_gl_tree">
+            <field name="name">account.reports.gl.tree</field>
+            <field name="model">account.reports.gl</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree string="General Ledger" editable="bottom">
+					    <field name="account"/>
+					    <field name="date"/>
+					    <field name="period"/>
+					    <field name="journal"/>
+					    <field name="partner"/>
+					    <field name="ref"/>
+					    <field name="move"/>
+					    <field name="name"/>
+					    <field name="counterpart"/>
+					    <field name="debit"/>
+					    <field name="credit"/>
+					    <field name="balance"/>
+                </tree>
+            </field>
+        </record>
+        <record id="view_account_reports_gl_filter" model="ir.ui.view">
+		    <field name="name">account.reports.gl.filter</field>
+            <field name="model">account.reports.gl</field>
+            <field name="type">search</field>
+            <field name="arch" type="xml">
+                <search string="General Ledger">
+					    <filter string="Account" icon="terp-folder-orange" domain="" context="{'group_by':'account'}"/>
+					    <filter string="Period" icon="terp-folder-orange" domain="" context="{'group_by':'period'}"/>
+					    <filter string="Journal" icon="terp-folder-orange" domain="" context="{'group_by':'journal'}"/>
+					    <filter string="Partner" icon="terp-folder-orange" domain="" context="{'group_by':'partner'}"/>
+					    <filter string="Move" icon="terp-folder-orange" domain="" context="{'group_by':'move'}"/>
+                </search>
+            </field>
+        </record>
+        
+        <record model="ir.actions.act_window" id="action_account_reports_gl_form">
+        	<field name="name">General Ledger</field>
+	        <field name="res_model">account.reports.gl</field>
+		    <field name="view_type">form</field>
+		    <field name="context">{"search_default_account":1,"search_default_period":1,"search_default_journal":1}</field>
+        </record>
+        
+        <menuitem id="menu_account_reports_gl" 
+            action="action_account_reports_gl_form" 
+            parent="account.menu_finance_legal_statement"
+            sequence="300" 
+            groups="base.group_user"/>  
+    </data>
+</openerp>

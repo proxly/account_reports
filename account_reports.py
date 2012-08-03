@@ -91,4 +91,76 @@ class account_reports_pl_expense(osv.osv):
         }
 account_reports_pl_expense()
 
+class account_reports_gl(osv.osv):
+    _name = "account.reports.gl"
+    _description = "General Ledger"
+    _columns = {
+            'name':fields.char('Entry Label',size=100),
+            'date':fields.date('Entry Date'),
+            'entry_id':fields.integer('Entry ID'),
+            'period':fields.char('Period', size=100),
+            'journal':fields.char('Journal',size=100),
+            'partner':fields.char('Partner Name',size=100),
+            'ref':fields.char('Ref',size=100),
+            'move':fields.char('Move',size=100),
+            'counterpart':fields.char('Counterpart',size=100),
+            'debit':fields.float('Debit'),
+            'credit':fields.float('Credit'),
+            'balance':fields.float('Balance'),
+            'account':fields.char('Account', size=100),
+            }
+    _order = 'account asc'
+    
+    def fetch_entries(self, cr, uid, ids, context=None):
+        ap_pool = self.pool.get('account.period')
+        journal_pool=self.pool.get('account.journal')
+        partner_pool=self.pool.get('res.partner')
+        move_pool=self.pool.get('account.move')
+        account_pool=self.pool.get('account.account')
+        query=("""select * from account_move_line where not exists(select * from account_reports_gl where account_reports_gl.entry_id=account_move_line.id)""")
+        cr.execute(query)
+        for t in cr.dictfetchall():
+            period_id=t['period_id']
+            name=t['name']
+            date=t['date']
+            entry_id=t['id']
+            ref=t['ref']
+            debit=t['debit']
+            credit=t['credit']
+            journal_id=t['journal_id']
+            partner_id=t['partner_id']
+            move_id = t['move_id']
+            account_id = t['account_id']
+            balance = debit-credit
+            period_obj = ap_pool.browse(cr, uid, period_id)
+            journal_obj=journal_pool.browse(cr, uid, journal_id)
+            partner_obj=partner_pool.browse(cr, uid, partner_id)
+            move_obj=move_pool.browse(cr, uid, move_id)
+            account_obj=account_pool.browse(cr, uid, account_id)
+            period_name = period_obj['name']
+            journal_name=journal_obj['name']
+            partner_name=partner_obj['name']
+            move_name=move_obj['name']
+            account_name=account_obj['name']
+            values={
+                    'name':name,
+                    'date':date,
+                    'entry_id':entry_id,
+                    'period':period_name,
+                    'journal':journal_name,
+                    'partner':partner_name,
+                    'ref':ref,
+                    'move':move_name,
+                    'debit':debit,
+                    'credit':credit,
+                    'balance':balance,
+                    'account':account_name,
+                }
+            self.create(cr, uid, values, context=context)
+        return True
+        
+    def create(self, cr, uid, vals, context=None):
+        new_id = super(account_reports_gl, self).create(cr, uid, vals,context)
+        return new_id
+account_reports_gl()
 
