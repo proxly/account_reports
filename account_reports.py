@@ -112,13 +112,22 @@ class account_reports_gl(osv.osv):
     _order = 'account asc'
     
     def fetch_entries(self, cr, uid, ids, context=None):
+        unlink_ids=[]
+        query=("""select * from account_reports_gl where not exists
+        (select * from account_move_line where account_reports_gl.entry_id=account_move_line.id)""")
+        cr.execute(query)
+        for t in cr.dictfetchall():
+            unlink_ids.append(t['id'])
+        osv.osv.unlink(self, cr, uid, unlink_ids, context=context)
         ap_pool = self.pool.get('account.period')
         journal_pool=self.pool.get('account.journal')
         partner_pool=self.pool.get('res.partner')
         move_pool=self.pool.get('account.move')
         account_pool=self.pool.get('account.account')
-        query=("""select * from account_move_line where not exists(select * from account_reports_gl where account_reports_gl.entry_id=account_move_line.id)""")
+        query=("""select * from account_move_line where not exists
+        (select * from account_reports_gl where account_reports_gl.entry_id=account_move_line.id)""")
         cr.execute(query)
+        balance = 0.00
         for t in cr.dictfetchall():
             period_id=t['period_id']
             name=t['name']
@@ -131,6 +140,12 @@ class account_reports_gl(osv.osv):
             partner_id=t['partner_id']
             move_id = t['move_id']
             account_id = t['account_id']
+            debit_str=str(debit)
+            credit_str=str(credit)
+            if debit_str=='None':
+                debit=0.00
+            elif credit_str=='None':
+                credit=0.00
             balance = debit-credit
             period_obj = ap_pool.browse(cr, uid, period_id)
             journal_obj=journal_pool.browse(cr, uid, journal_id)
@@ -162,5 +177,19 @@ class account_reports_gl(osv.osv):
     def create(self, cr, uid, vals, context=None):
         new_id = super(account_reports_gl, self).create(cr, uid, vals,context)
         return new_id
+    
+    def unlink(self, cr, uid, ids, context=None):
+        raise osv.except_osv(_('Deletion not allowed.'),_("Deletion not allowed on this entries"))
+        return True
+    
 account_reports_gl()
 
+class account_reports_bs(osv.osv):
+    _name="account.reports.bs"
+    _description="Balance Sheet"
+    _columns={
+        'name':fields.char('Generate Number:',size=64),
+        'generate_date':fields.date('Generate Date'),
+        'data_ids':fields.many2many('account.account', 'account_bs_rel', 'bs_id', 'account_id', 'Balance Sheet Lists'),
+        }
+account_reports_bs()
