@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <openerp>
     <data noupdate="1">
-        
         <record forcecreate="True" id="ir_cron_scheduler_action" model="ir.cron">
             <field name="name">Fetch GL</field>
             <field eval="False" name="active"/>

@@ -39,12 +39,12 @@ class account_reports_pl(osv.osv):
                          
                 query = ("""insert into account_reports_pl_income(account_name,total_amount,period_name,account_type) select aa.name,sum(aml.credit), ap.name, aat.name from account_period ap, account_account aa, account_move_line aml, account_account_type aat where aml.account_id=aa.id and aat.id=aa.user_type and aml.period_id=ap.id and aat.report_type='income' and ap.name=%s group by aa.name, aat.name, ap.name"""% (period_id))
                 cr.execute(query)
-                netsvc.Logger().notifyChannel("Query", netsvc.LOG_INFO, ' '+query)
+                #netsvc.Logger().notifyChannel("Query", netsvc.LOG_INFO, ' '+query)
                 
                 #Update Income Accounts
                 query = ("""update account_reports_pl_income set pl_id=%s where pl_id is Null"""% (inv_id))
                 cr.execute(query)
-                netsvc.Logger().notifyChannel("Query", netsvc.LOG_INFO, ' '+query)
+                #netsvc.Logger().notifyChannel("Query", netsvc.LOG_INFO, ' '+query)
                 
                 
                 query = ("""insert into account_reports_pl_expense(account_name,total_amount,period_name,account_type) select aa.name,sum(aml.debit), ap.name, aat.name from account_period ap, account_account aa, account_move_line aml, account_account_type aat where aml.account_id=aa.id and aat.id=aa.user_type and aml.period_id=ap.id and aat.report_type='expense' and ap.name=%s group by aa.name, aat.name, ap.name"""% (period_id))
@@ -64,6 +64,21 @@ class account_reports_pl(osv.osv):
                 net_pl = total_income - total_expense
                 self.write(cr, uid, ids, {'state':'post','total_income':total_income,'total_expense':total_expense,'net_profit_loss':net_pl})
                 return True
+    def unlink(self, cr, uid, ids, context=None):
+        if context is None:
+            context={}
+        reassignments=self.read(cr, uid, ids, ['state'],context=context)
+        unlink_ids = []
+        for t in reassignments:
+            state=t['state']
+            netsvc.Logger().notifyChannel("State", netsvc.LOG_INFO, ' '+str(state))
+            if t['state'] in ('post'):
+                raise osv.except_osv(_('Could not be deleted'),
+                                            _('Generated reports are not allowed to be deleted!'))
+            elif t['state'] in ('draft'):
+                unlink_ids.append(t['id'])
+        osv.osv.unlink(self, cr, uid, unlink_ids, context=context)
+        return True
         
 account_reports_pl()
 
@@ -171,6 +186,7 @@ class account_reports_gl(osv.osv):
                     'balance':balance,
                     'account':account_name,
                 }
+            netsvc.Logger().notifyChannel("Values", netsvc.LOG_INFO, ' '+str(values))
             self.create(cr, uid, values, context=context)
         return True
         
@@ -180,6 +196,10 @@ class account_reports_gl(osv.osv):
     
     def unlink(self, cr, uid, ids, context=None):
         raise osv.except_osv(_('Deletion not allowed.'),_("Deletion not allowed on this entries"))
+        return True
+    
+    def unlink_entries(self, cr, uid, unlink_ids, context=None):
+        osv.osv.unlink(self, cr, uid, unlink_ids, context=context)
         return True
     
 account_reports_gl()

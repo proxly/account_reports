@@ -56,6 +56,9 @@
         	<field name="name">General Ledger</field>
 	        <field name="res_model">account.reports.gl</field>
 		    <field name="view_type">form</field>
+		    <field name="view_mode">tree</field>
+		    <field name="view_id" ref="view_account_reports_gl_tree"/>
+		    <field name="search_view_id" ref="view_account_reports_gl_filter"/>
         </record>
         
         <menuitem id="menu_account_reports_gl" 

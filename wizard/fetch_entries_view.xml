@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+		<record id="account_report_fetch_entries_view" model="ir.ui.view">
+            <field name="name">Fetch Entries</field>
+            <field name="model">account.report.fetch.entries</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+            <form string="Fetch Entries">
+            	<separator string="Fetching Entries" colspan="4"/>
+                <image name="terp-referer"/>
+                <label string="This will fetch the entries from the Journal Entry table and be inserted on the General Ledger Module." colspan="2"/>
+                <separator colspan="4"/>
+                    <group colspan="4" col="6">
+                        <button icon="gtk-cancel" special="cancel" string="Cancel"/>
+                        <button icon="gtk-ok" string="Fetch Entries" name="fetch_aml_entries" type="object" default_focus="1"/>
+                   </group>
+            </form>
+            </field>
+        </record>
+
+        <record id="action_report_fetch_entries" model="ir.actions.act_window">
+            <field name="name">Fetch Entries</field>
+            <field name="res_model">account.report.fetch.entries</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+           <field name="view_id" ref="account_report_fetch_entries_view"/>
+           <field name="target">new</field>
+        </record>
+
+        <record model="ir.values" id="account_report_fetch_entries_values">
+            <field name="model_id" ref="account_reports.model_account_reports_gl" />
+            <field name="object" eval="1" />
+            <field name="name">Fetch Entries</field>
+            <field name="key2">client_action_multi</field>
+            <field name="value" eval="'ir.actions.act_window,' + str(ref('action_report_fetch_entries'))" />
+            <field name="key">action</field>
+            <field name="model">account.reports.gl</field>
+        </record>
+
+    </data>
+</openerp>

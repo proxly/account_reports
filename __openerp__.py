@@ -29,7 +29,7 @@
     'website': 'http://proxly.github.com/account_reports',
     'init_xml': [],
     "depends" : ["account"],
-    'update_xml': ["views.xml","gl_views.xml","bs_views.xml"
+    'update_xml': ["views.xml","gl_views.xml","bs_views.xml","data.xml", "wizard/fetch_entries_view.xml"
     ],
     'demo_xml': [
     ],
